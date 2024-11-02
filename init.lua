@@ -35,6 +35,10 @@ end)
 -- Enable break indent
 vim.opt.breakindent = true
 
+vim.bo.shiftwidth = 4
+vim.bo.tabstop = 4
+vim.bo.expandtab = true
+
 -- Save undo history
 vim.opt.undofile = true
 
@@ -493,18 +497,7 @@ require('lazy').setup({
         cmake = {},
         rust_analyzer = {},
         csharp_ls = {},
-        bashls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-<<<<<<< HEAD
-=======
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
->>>>>>> 4120893b8a1f31a0957f2f891f7fbef73ddfb9b1
 
         lua_ls = {
           -- cmd = {...},
@@ -536,7 +529,6 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua',
         'clang-format',
-        'markdownlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -809,9 +801,10 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
+  require 'plugins.neo-tree',
   require 'plugins.autopairs',
-  require 'plugins.lint',
-  require 'plugins.indent_line',
+  -- require 'plugins.lint',
+  require 'plugins.obsidian',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
