@@ -467,6 +467,20 @@ require('lazy').setup({
 
   -- LSP Plugins
   {
+    'pmizio/typescript-tools.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'neovim/nvim-lspconfig',
+    },
+    opts = {
+      settings = {
+        jsx_close_tag = {
+          enable = true,
+        },
+      },
+    },
+  },
+  {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
     'folke/lazydev.nvim',
