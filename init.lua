@@ -177,7 +177,8 @@ vim.o.confirm = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open buffer diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>Q', vim.diagnostic.setqflist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -448,7 +449,25 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      -- TODO: make this work
+      vim.keymap.set('n', '<leader>sG', builtin.git_status, { desc = '[S]earch [G]it [S]tatus' })
 
+      -- Function to open :messages output in a buffer
+      local function open_messages_buffer()
+        -- Write messages to a temporary file
+        vim.cmd 'redir! > /tmp/neovim_messages.txt'
+        vim.cmd 'silent! messages'
+        vim.cmd 'redir END'
+
+        -- Open the temporary file in a new buffer
+        vim.cmd 'edit /tmp/neovim_messages.txt'
+
+        -- Optionally delete the temporary file after opening
+        -- os.remove '/tmp/neovim_messages.txt'
+      end
+
+      -- Set up keybinding to call the function
+      vim.keymap.set('n', '<leader>mm', open_messages_buffer, { desc = 'Open [M]essages buffer' })
       -- Telescope file browser bindings
       vim.keymap.set('n', '\\', function()
         require('telescope').extensions.file_browser.file_browser()
@@ -702,18 +721,11 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        clangd = {},
+        rust_analyzer = {},
+        ts_ls = {},
+        graphql = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -1004,9 +1016,9 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
