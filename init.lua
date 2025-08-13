@@ -717,7 +717,15 @@ require('lazy').setup({
       local servers = {
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         clangd = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ['rust-analyzer'] = {
+              check = {
+                command = 'clippy',
+              },
+            },
+          },
+        },
         ts_ls = {},
         graphql = {},
 
