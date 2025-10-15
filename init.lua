@@ -638,6 +638,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'clang-format',
         'prettierd',
+        'eslint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -690,7 +691,10 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        svelte = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
